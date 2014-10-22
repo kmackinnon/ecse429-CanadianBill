@@ -39,6 +39,14 @@ public class Bill
   public BillState getCurrentBillState(){
 	  return billState;
   }
+  
+  public BillStateInHouseOfCommons getCurrentHouseBillState(){
+	  return billStateInHouseOfCommons;
+  }
+  
+  public BillStateInSenate getCurrentSenateBillState(){
+	  return billStateInSenate;
+  }
 
   //------------------------
   // INTERFACE
