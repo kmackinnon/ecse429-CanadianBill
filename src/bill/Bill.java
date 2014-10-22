@@ -32,6 +32,13 @@ public class Bill
     setBillStateInSenate(BillStateInSenate.Null);
     setBillState(BillState.inPreparation);
   }
+  
+  //------------------------
+  // TEST SUPPORT METHODS
+  //------------------------
+  public BillState getCurrentBillState(){
+	  return billState;
+  }
 
   //------------------------
   // INTERFACE
