@@ -682,11 +682,11 @@ public class ConformanceTests {
 		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
 		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
 		assertEquals(testBill.getCurrentBillState(), Bill.BillState.awaitingRoyalAssent);
-		assertTrue(testBill.getIsCommonsBill());
+		assertFalse(testBill.getIsCommonsBill());
 		testBill.royalAssent();
 		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
 		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
 		assertEquals(testBill.getCurrentBillState(), Bill.BillState.actOfParliament);
-		assertTrue(testBill.getIsCommonsBill());
+		assertFalse(testBill.getIsCommonsBill());
 	}
 }
