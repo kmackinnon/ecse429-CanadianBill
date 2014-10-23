@@ -1,10 +1,24 @@
 package bill;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class ConformanceTests {
+	
+	Bill bill;
+	
+	@Before
+	public void setUp() throws Exception {
+		bill = new Bill();
+		
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inPreparation);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+	}
 	
 	/**
 	 * Conformance Test
@@ -12,20 +26,16 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testFirstReadingSWithdrawl() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInSenate());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInSenate());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -34,20 +44,16 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testFirstReadingSVoteFailed() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 
 	/**
@@ -56,25 +62,21 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testSecondReadingSVoteWithdraw() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 
@@ -84,25 +86,21 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testSecondReadingSVoteFailed() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 
@@ -112,30 +110,26 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testCommitteeSWithdrawn() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -144,30 +138,26 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testCommitteeSVoteFailed() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 
@@ -177,35 +167,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testThirdReadingSWithdrawn() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -214,35 +200,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testThirdReadingVoteFailed() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertFalse(bill.getIsCommonsBill());
 	}
 
 	/**
@@ -251,35 +233,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testMoveToHouse() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertFalse(bill.getIsCommonsBill());
 	}
 	
 
@@ -289,60 +267,56 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testMoveBecomeActOfParliamentFromHouse() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.awaitingRoyalAssent);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.royalAssent());
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.actOfParliament);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.awaitingRoyalAssent);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.royalAssent());
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.actOfParliament);
+		assertTrue(bill.getIsCommonsBill());
 	}
 
 
@@ -352,25 +326,21 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void firstReadingWithdrawAndModify() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
-		testBill.modify(); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
+		bill.modify(); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inPreparation);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	
@@ -380,20 +350,16 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void firstReadingVoteFail() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	
@@ -403,25 +369,21 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void secondReadingWithdraw() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -430,25 +392,21 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void secondReadingVoteFailed() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	
@@ -458,30 +416,26 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void committeeWithdraw() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -490,30 +444,26 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void committeeVoteFail() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	
@@ -523,35 +473,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void thirdReadingWithdrawn() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.withdraw()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.withdraw()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -560,35 +506,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void thirdReadingFailVote() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.voteFails()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.withdrawn);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.voteFails()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.withdrawn);
+		assertTrue(bill.getIsCommonsBill());
 	}
 
 	/**
@@ -597,35 +539,31 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testMoveToSenate() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertTrue(testBill.introduceInHouse());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertTrue(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertTrue(testBill.getIsCommonsBill());
+		assertTrue(bill.introduceInHouse());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertTrue(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertTrue(bill.getIsCommonsBill());
 	}
 	
 	/**
@@ -634,59 +572,55 @@ public class ConformanceTests {
 	 */
 	@Test
 	public void testActOfParliamentFromSenate() {
-		Bill testBill = new Bill();
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inPreparation);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		testBill.introduceInSenate();
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inSenate);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses());
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.votePasses()); 
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.awaitingRoyalAssent);
-		assertFalse(testBill.getIsCommonsBill());
-		assertTrue(testBill.royalAssent());
-		assertEquals(testBill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
-		assertEquals(testBill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
-		assertEquals(testBill.getCurrentBillState(), Bill.BillState.actOfParliament);
-		assertFalse(testBill.getIsCommonsBill());
+		bill.introduceInSenate();
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.secondReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.committeeConsiderationS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.firstReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses());
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.secondReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.committeeConsideration);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.thirdReading);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.votePasses()); 
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.awaitingRoyalAssent);
+		assertFalse(bill.getIsCommonsBill());
+		assertTrue(bill.royalAssent());
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.Null);
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.actOfParliament);
+		assertFalse(bill.getIsCommonsBill());
 	}
 }
