@@ -18,7 +18,7 @@ public class CorrectedBill {
 	}
 
 	enum BillStateInHouseOfCommons {
-		Null, firstReading, secondReading, committeeConsideration, thirdReading, lastReading
+		Null, firstReading, secondReading, committeeConsideration, thirdReading
 	}
 
 	enum BillStateInSenate {
@@ -67,10 +67,6 @@ public class CorrectedBill {
 	}
 
 	public boolean getIsCommonsBill() {
-		return isCommonsBill;
-	}
-
-	public boolean isIsCommonsBill() {
 		return isCommonsBill;
 	}
 
@@ -158,26 +154,6 @@ public class CorrectedBill {
 		switch (aBillState) {
 		case awaitingRoyalAssent:
 			setBillState(BillState.actOfParliament);
-			wasEventProcessed = true;
-			break;
-		default:
-			// Other states do respond to this event
-		}
-
-		return wasEventProcessed;
-	}
-
-	public boolean voteDenied() {
-		boolean wasEventProcessed = false;
-
-		BillState aBillState = billState;
-		switch (aBillState) {
-		case inHouseOfCommons:
-			setBillStateInHouseOfCommons(BillStateInHouseOfCommons.lastReading);
-			wasEventProcessed = true;
-			break;
-		case inSenate:
-			setBillStateInSenate(BillStateInSenate.firstReadingS);
 			wasEventProcessed = true;
 			break;
 		default:

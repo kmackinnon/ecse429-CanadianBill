@@ -7,6 +7,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import bill.Bill.BillState;
+import bill.Bill.BillStateInHouseOfCommons;
+
 public class BillTests {
 	
 	Bill bill;
@@ -1117,4 +1120,52 @@ public class BillTests {
 		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.Null);
 		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.thirdReadingS);
 	}
+	
+	/*
+	 * 	 Extra tests for Question 6
+	 */
+	
+	/**
+	 * Test isIsCommonBill
+	 */
+	@Test
+	public void testIsIsCommonsBill(){
+		bill.introduceInHouse();
+		assertTrue(bill.isIsCommonsBill());
+	}
+	
+	/**
+	 * Test toString
+	 */
+	@Test
+	public void testToString(){
+		bill.introduceInHouse();
+		assertTrue(bill.toString().endsWith("[isCommonsBill:true]"));
+		assertTrue(bill.toString().startsWith("bill.Bill"));
+	}
+	
+	/**
+	 * TC ID 77
+	 * Note: realistically this method/test should be removed, but for the sake of coverage, keeping it in
+	 */
+	@Test
+	public void testVoteDeniedHouse(){
+		bill.introduceInHouse();
+		bill.voteDenied();
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inHouseOfCommons);
+		assertEquals(bill.getCurrentHouseBillState(), Bill.BillStateInHouseOfCommons.lastReading);
+	}
+	
+	/**
+	 * TC ID 78
+	 * Note: realistically this method/test should be removed, but for the sake of coverage, keeping it in
+	 */
+	@Test
+	public void testVoteDeniedSenate(){
+		bill.introduceInSenate();
+		bill.voteDenied();
+		assertEquals(bill.getCurrentBillState(), Bill.BillState.inSenate);
+		assertEquals(bill.getCurrentSenateBillState(), Bill.BillStateInSenate.firstReadingS);
+	}
+	
 }
